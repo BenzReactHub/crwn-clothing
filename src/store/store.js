@@ -1,34 +1,36 @@
 import { compose, createStore, applyMiddleware } from 'redux'
-// import logger from 'redux-logger'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
 import { rootReducer } from './root-reducer'
 
-// const curryFunc = (a) => (b, c) => {
-//     a + b -c
-// }
-
-// const with3 = curryFunc(3)
-// const with10 = curryFunc(10)
-
-// with3(2, 4); // 3 + 2 - 4
-// with10(9, 2); // 10 + 9 - 2
 
 const loggerMiddleware = (store) => (next) => (action) => {
     if(!action.type) {
         return next(action)
     }
 
-    // console.log('type: ', action.type)
-    // console.log('payload: ', action.payload)
-    // console.log('currentState: ', store.getState())
+    console.log('type: ', action.type)
+    console.log('payload: ', action.payload)
+    console.log('currentState: ', store.getState())
 
     next(action)
 
     console.log('next state: ', store.getState())
 }
 
+const persistConfig = {
+    key: 'root',
+    storage,
+    blacklist: ['user'] // 放入不想要持久化的(user通常會放在local storage所以可以不用在redux中持久化)
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 const middleware = [loggerMiddleware]
 
 const composeEnhancers = compose(applyMiddleware(...middleware))
 
-export const store = createStore(rootReducer, undefined, composeEnhancers)
+export const store = createStore(persistedReducer, undefined, composeEnhancers)
+
+export const persistor = persistStore(store)
