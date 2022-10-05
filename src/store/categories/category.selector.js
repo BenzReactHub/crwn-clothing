@@ -6,13 +6,13 @@ import { createSelector } from "reselect";
 // add(3, 6); // 9
 
 // 這一個是一定會被執行的
-const selectCatoryReducer = (state) => state.categories;
+const selectCategoryReducer = (state) => state.categories;
 
 // first argument is input selectors, and the second is going to be the output selector
 // The only time where this will run is if this category slice object that we get back from this selector is different
 // 如果這個類的輸入值是不同的，只有這個時候這個selector才會執行
 export const selectCategories = createSelector(
-  [selectCatoryReducer],
+  [selectCategoryReducer],
   (categoriesSlice) => categoriesSlice.categories
 );
 
@@ -28,3 +28,9 @@ export const selectCategoriesMap = createSelector(
       return acc;
     }, {})
 );
+
+// memories selector
+export const selectCategoriesIsLoading = createSelector(
+  [selectCategoryReducer],
+  (categoreiesSlice) => categoreiesSlice.isLoading
+)
