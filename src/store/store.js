@@ -6,6 +6,9 @@ import logger from 'redux-logger'
 // import { loggerMiddleware } from './middleware/logger'
 import thunk from 'redux-thunk'
 
+import createSagaMiddleware from '@redux-saga/core'
+import { rootSaga } from './root-saga'
+
 const persistConfig = {
     key: 'root',
     storage,
@@ -13,9 +16,11 @@ const persistConfig = {
     whitelist: ['cart'] // 放入想要持久化的(只想要cart持久化)
 }
 
+const sagaMiddleware = createSagaMiddleware();
+
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const middleware = [process.env.NODE_ENV !== 'production' && logger, thunk].filter(Boolean) // production => development
+const middleware = [process.env.NODE_ENV !== 'production' && logger, sagaMiddleware].filter(Boolean) // production => development
 // const middleware = [loggerMiddleware]
 
 
@@ -26,5 +31,7 @@ const composeEnhancer = (process.env.NODE_ENV !== 'production' && window && wind
 const composeEnhancers = composeEnhancer(applyMiddleware(...middleware))
 
 export const store = createStore(persistedReducer, undefined, composeEnhancers)
+
+sagaMiddleware.run(rootSaga)
 
 export const persistor = persistStore(store)
