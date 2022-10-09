@@ -12,16 +12,9 @@ import {
   Total,
 } from './checkout.styles';
 
-import axios from "axios";
-
 const Checkout = () => {
   const cartItems = useSelector(selectCartItems)
   const cartTotal = useSelector(selectCartTotal)
-
-  const handleTest = async() => {
-    const test_data = await axios.get('/.netlify/functions/test')
-    console.log(test_data)
-  }
 
   return (
     <CheckoutContainer>
@@ -47,7 +40,6 @@ const Checkout = () => {
       ))}
       <Total>Total: ${cartTotal}</Total>
       <PaymentForm/>
-      <div onClick={handleTest}>test click</div>
     </CheckoutContainer>
   );
 };

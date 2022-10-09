@@ -11,7 +11,6 @@ exports.handler = async (event) => {
       payment_method_types: ["card"],
     });
 
-    
     return {
       statusCode: 200,
       body: JSON.stringify({ paymentIntent }),
@@ -25,4 +24,3 @@ exports.handler = async (event) => {
     };
   }
 };
-
