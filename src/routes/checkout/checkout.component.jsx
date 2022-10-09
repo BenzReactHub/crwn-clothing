@@ -3,6 +3,7 @@ import { selectCartItems } from '../../store/cart/cart.selector';
 import { selectCartTotal } from '../../store/cart/cart.selector';
 
 import CheckoutItem from '../../components/checkout-item/checkout-item.component';
+import PaymentForm from '../../components/payment-form/payment-form.component';
 
 import {
   CheckoutContainer,
@@ -11,9 +12,16 @@ import {
   Total,
 } from './checkout.styles';
 
+import axios from "axios";
+
 const Checkout = () => {
   const cartItems = useSelector(selectCartItems)
   const cartTotal = useSelector(selectCartTotal)
+
+  const handleTest = async() => {
+    const test_data = await axios.get('/.netlify/functions/test')
+    console.log(test_data)
+  }
 
   return (
     <CheckoutContainer>
@@ -38,6 +46,8 @@ const Checkout = () => {
         <CheckoutItem key={cartItem.id} cartItem={cartItem} />
       ))}
       <Total>Total: ${cartTotal}</Total>
+      <PaymentForm/>
+      <div onClick={handleTest}>test click</div>
     </CheckoutContainer>
   );
 };
