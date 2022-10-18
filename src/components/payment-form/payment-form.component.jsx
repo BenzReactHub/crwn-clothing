@@ -39,7 +39,7 @@ const PaymentForm = () => {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
-          name: currentUser ? currentUser.displayName : 'Ben Bang',
+          name: currentUser ? currentUser.displayName : 'Guest',
         },
       },
     });
@@ -61,8 +61,8 @@ const PaymentForm = () => {
         <h2>Credit Card Payment:</h2>
         <CardElement />
         <PaymentButton
-          buttonType={BUTTON_TYPE_CLASSES.inverted}
           isLoading={isProcessingPayment}
+          buttonType={BUTTON_TYPE_CLASSES.inverted}
         >
           Pay Now
         </PaymentButton>
